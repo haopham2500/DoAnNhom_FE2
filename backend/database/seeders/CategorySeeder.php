@@ -14,17 +14,17 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             // Income
-            ['type' => 'income', 'name' => 'Lương', 'icon' => 'FiDollarSign', 'created_at' => now(), 'updated_at' => now()],
-            ['type' => 'income', 'name' => 'Thưởng', 'icon' => 'FiGift', 'created_at' => now(), 'updated_at' => now()],
-            ['type' => 'income', 'name' => 'Kinh doanh', 'icon' => 'FiTrendingUp', 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'income', 'name' => 'Lương', 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'income', 'name' => 'Thưởng', 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'income', 'name' => 'Kinh doanh', 'created_at' => now(), 'updated_at' => now()],
             // Expense
-            ['type' => 'expense', 'name' => 'Ăn uống', 'icon' => 'FiCoffee', 'created_at' => now(), 'updated_at' => now()],
-            ['type' => 'expense', 'name' => 'Di chuyển', 'icon' => 'FiNavigation', 'created_at' => now(), 'updated_at' => now()],
-            ['type' => 'expense', 'name' => 'Mua sắm', 'icon' => 'FiShoppingBag', 'created_at' => now(), 'updated_at' => now()],
-            ['type' => 'expense', 'name' => 'Hóa đơn', 'icon' => 'FiFileText', 'created_at' => now(), 'updated_at' => now()],
-            ['type' => 'expense', 'name' => 'Giải trí', 'icon' => 'FiFilm', 'created_at' => now(), 'updated_at' => now()],
-            ['type' => 'expense', 'name' => 'Sức khỏe', 'icon' => 'FiHeart', 'created_at' => now(), 'updated_at' => now()],
-            ['type' => 'expense', 'name' => 'Giáo dục', 'icon' => 'FiBookOpen', 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'expense', 'name' => 'Ăn uống', 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'expense', 'name' => 'Di chuyển', 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'expense', 'name' => 'Mua sắm', 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'expense', 'name' => 'Hóa đơn', 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'expense', 'name' => 'Giải trí', 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'expense', 'name' => 'Sức khỏe', 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'expense', 'name' => 'Giáo dục', 'created_at' => now(), 'updated_at' => now()],
         ];
 
         \Illuminate\Support\Facades\DB::table('categories')->insert($categories);
