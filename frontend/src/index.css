@@ -1,122 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 :root {
-  --primary-color: #4f46e5;
-  --primary-hover: #4338ca;
-  --bg-color: #0f172a;
-  --surface-color: rgba(30, 41, 59, 0.7);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --danger-color: #ef4444;
-  --success-color: #10b981;
-  --glass-blur: 12px;
+  --gold-color: #D4AF37; /* Classic Gold */
+  --gold-gradient: linear-gradient(145deg, #FBF5B7, #B38728);
+  --purple-color: #6A0DAD; /* Bright Purple */
+  --purple-hover: #800080;
+  --bg-color: #080808; /* Near black */
+  --panel-bg: #1A1A1A; /* Dark charcoal for metal */
+  --text-primary: #EAEAEA;
+  --text-secondary: #A0A0A0;
+  --border-color: rgba(212, 175, 55, 0.3);
+  --glow-color: rgba(212, 175, 55, 0.4);
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-color);
   color: var(--text-primary);
+  /* Blurred city skyline at night effect */
   background-image: 
-    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+    radial-gradient(circle at 15% 85%, hsla(45, 100%, 70%, 0.15) 0px, transparent 25%),
+    radial-gradient(circle at 80% 30%, hsla(220, 80%, 70%, 0.1) 0px, transparent 25%),
+    radial-gradient(circle at 50% 50%, hsla(0, 0%, 100%, 0.08) 0px, transparent 20%);
   background-attachment: fixed;
   min-height: 100vh;
+  overflow: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* This would be for a logo if added to the HTML */
+.finance-logo {
+  /* Placeholder styles */
+  width: 50px;
+  height: 50px;
+  border: 2px solid var(--gold-color);
+  border-radius: 50%;
+  margin: 0 auto 16px;
 }
 
-/* Glassmorphism Utilities */
+/* Premium Black Brushed Metal Login Card */
 .glass-panel {
-  background: var(--surface-color);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--border-color);
+  background-color: var(--panel-bg);
+  /* Subtle brushed metal texture */
+  background-image: linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.05) 51%, rgba(0,0,0,0) 100%);
   border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  position: relative;
+  /* Gold metallic border effect */
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
 }
 
-.glass-button {
-  background: rgba(79, 70, 229, 0.8);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: -1;
+  margin: -2px; /* Border width */
+  border-radius: inherit; /* Follow parent's border-radius */
+  background: var(--gold-gradient);
+  box-shadow: 0 0 20px var(--glow-color);
 }
 
-.glass-button:hover {
-  background: rgba(79, 70, 229, 1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+.glass-panel h2 {
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-primary);
 }
 
+/* Elegant Input Fields */
+/* For gold icons, wrap input and an icon in a div with position:relative */
 .glass-input {
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(0, 0, 0, 0.3);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
-  padding: 12px 16px;
+  padding: 14px 18px;
   border-radius: 8px;
   outline: none;
   transition: all 0.3s ease;
   width: 100%;
   box-sizing: border-box;
+  font-size: 16px;
 }
 
 .glass-input:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+  border-color: var(--gold-color);
+  box-shadow: 0 0 10px var(--glow-color);
 }
 
-.text-danger { color: var(--danger-color); }
-.text-success { color: var(--success-color); }
+.glass-input::placeholder {
+  color: var(--text-secondary);
+}
 
-/* Rotating Glow Effect */
-.wallet-card-glow {
-    position: relative;
-    z-index: 1;
+/* Purple Login Button */
+.glass-button {
+  background: var(--purple-color);
+  color: white;
+  padding: 14px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  width: 100%;
+  box-shadow: 0 5px 15px rgba(106, 13, 173, 0.3);
 }
-.wallet-card-glow::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border-radius: 14px;
-    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-    background-size: 400%;
-    z-index: -2;
-    animation: glowing 20s linear infinite;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-.wallet-card-glow:hover::before {
-    opacity: 1;
-}
-.wallet-card-glow::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(30, 41, 59, 1);
-    border-radius: 12px;
-    z-index: -1;
-}
-@keyframes glowing {
-    0% { background-position: 0 0; }
-    50% { background-position: 400% 0; }
-    100% { background-position: 0 0; }
+
+.glass-button:hover {
+  background: var(--purple-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(106, 13, 173, 0.4);
 }
