@@ -80,3 +80,47 @@ code {
 
 .text-danger { color: var(--danger-color); }
 .text-success { color: var(--success-color); }
+
+/* Cyberpunk Running Border Glow Effect */
+@keyframes spinGlow {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.wallet-card-glow {
+  position: relative;
+  overflow: hidden;
+  border: none !important; /* Xóa viền tĩnh mặc định */
+  z-index: 1;
+}
+
+/* Ánh sáng xoay vòng */
+.wallet-card-glow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250%; /* Đủ rộng để bao phủ khi xoay */
+  height: 250%;
+  background: conic-gradient(from 0deg, transparent 0%, transparent 60%, #ff00c8, #002bff, #00ffd5, #48ff00, transparent 100%);
+  transform: translate(-50%, -50%) rotate(0deg);
+  z-index: -2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Khi rê chuột vào thì xoay */
+.wallet-card-glow:hover::before {
+  opacity: 1;
+  animation: spinGlow 2s linear infinite;
+}
+
+/* Lớp màu tối đè lên giữa thẻ để chỉ chừa lại viền sáng xung quanh */
+.wallet-card-glow::after {
+  content: '';
+  position: absolute;
+  inset: 2px; /* Khoảng cách 2px này chính là độ dày của viền sáng */
+  background: #0f172a; /* Màu nền trùng với màu web để che đi tia sáng ở giữa */
+  border-radius: 10px; /* Nhỏ hơn thẻ chính 1 chút để viền mượt */
+  z-index: -1;
+}
