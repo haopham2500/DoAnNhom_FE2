@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Register = () => {
@@ -8,14 +8,11 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const { register } = useContext(AuthContext);
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await register(name, email, password);
-            alert('Đăng ký thành công! Vui lòng đăng nhập.');
-            navigate('/login');
         } catch (err) {
             const serverMsg = err.response?.data?.message || 'Lỗi kết nối máy chủ.';
             setError(`Đăng ký thất bại: ${serverMsg}`);
