@@ -20,7 +20,7 @@ class TransactionController extends Controller
             'wallet_id' => 'required|exists:wallets,id',
             'category_id' => 'required|exists:categories,id',
             'type' => 'required|in:income,expense',
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|min:0',
             'transaction_date' => 'required|date',
             'note' => 'nullable|string',
         ]);

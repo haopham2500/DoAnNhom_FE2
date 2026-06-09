@@ -38,6 +38,10 @@ const Budgets = () => {
 
     const handleCreate = async (e) => {
         e.preventDefault();
+        if (parseFloat(amount) < 0) {
+            showNotification('Yêu cầu nhập số dương!', 'error');
+            return;
+        }
         try {
             await api.post('/budgets', {
                 category_id: categoryId,
@@ -104,6 +108,7 @@ const Budgets = () => {
 
                     <input 
                         type="number"
+                        min="0"
                         className="glass-input" 
                         placeholder="Số tiền giới hạn" 
                         value={amount} 

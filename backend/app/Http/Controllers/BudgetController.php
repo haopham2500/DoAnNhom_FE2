@@ -17,7 +17,7 @@ class BudgetController extends Controller
     {
         $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'amount' => 'required|numeric',
+            'amount' => 'required|numeric|min:0',
             'month' => 'required|integer|min:1|max:12',
             'year' => 'required|integer',
         ]);

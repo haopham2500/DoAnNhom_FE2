@@ -62,6 +62,10 @@ const Transactions = () => {
 
     const handleCreateTransaction = async (e) => {
         e.preventDefault();
+        if (parseFloat(amount) < 0) {
+            showNotification('Yêu cầu nhập số dương!', 'error');
+            return;
+        }
         try {
             await api.post('/transactions', {
                 wallet_id: walletId,
@@ -82,6 +86,10 @@ const Transactions = () => {
 
     const handleCreateTransfer = async (e) => {
         e.preventDefault();
+        if (parseFloat(transferAmount) <= 0) {
+            showNotification('Yêu cầu nhập số dương lớn hơn 0!', 'error');
+            return;
+        }
         if (fromWalletId === toWalletId) {
             showNotification('Ví nguồn và ví đích không được trùng nhau!', 'error');
             return;
@@ -213,7 +221,7 @@ const Transactions = () => {
                                 {categories.filter(c => c.type === type).map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                             </select>
 
-                            <input type="number" className="glass-input" placeholder="Số tiền" value={amount} onChange={e => setAmount(e.target.value)} required />
+                            <input type="number" min="0" className="glass-input" placeholder="Số tiền" value={amount} onChange={e => setAmount(e.target.value)} required />
                             <input type="text" className="glass-input" placeholder="Ghi chú" value={note} onChange={e => setNote(e.target.value)} />
                             <input type="date" className="glass-input" value={transactionDate} onChange={e => setTransactionDate(e.target.value)} required />
 

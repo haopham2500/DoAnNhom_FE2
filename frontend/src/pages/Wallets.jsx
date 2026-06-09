@@ -28,6 +28,10 @@ const Wallets = () => {
 
     const handleCreate = async (e) => {
         e.preventDefault();
+        if (parseFloat(balance) < 0) {
+            showNotification('Yêu cầu nhập số dương!', 'error');
+            return;
+        }
         try {
             await api.post('/wallets', { name, balance, currency });
             setName('');
@@ -91,6 +95,7 @@ const Wallets = () => {
                     />
                     <input 
                         type="number"
+                        min="0"
                         className="glass-input" 
                         placeholder="Số dư ban đầu" 
                         value={balance} 
