@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
 import { FiPlus, FiAlertCircle } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Budgets = () => {
     const [budgets, setBudgets] = useState([]);
@@ -75,7 +76,12 @@ const Budgets = () => {
     };
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '24px' }}>
+        <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '24px' }}
+        >
             <div className="glass-panel" style={{ padding: '24px', height: 'fit-content' }}>
                 <h3 style={{ marginTop: 0, marginBottom: '20px' }}>Thiết Lập Ngân Sách</h3>
                 
@@ -123,37 +129,76 @@ const Budgets = () => {
             </div>
 
             <div className="glass-panel" style={{ padding: '24px' }}>
-                <h3 style={{ marginTop: 0 }}>Theo Dõi Ngân Sách</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                    {budgets.length === 0 ? <p style={{ color: 'var(--text-secondary)' }}>Chưa có ngân sách nào được thiết lập.</p> : budgets.map(budget => {
-                        const { spent, limit, percent, isExceeded } = getBudgetProgress(budget);
-                        return (
-                            <div key={budget.id}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                                    <div style={{ fontWeight: 'bold' }}>{budget.category?.name} (T{budget.month}/{budget.year})</div>
-                                    <div style={{ color: isExceeded ? 'var(--danger-color)' : 'var(--text-primary)' }}>
-                                        {spent.toLocaleString()} / {limit.toLocaleString()} VNĐ
+                <h3 style={{ marginTop: 0, marginBottom: '24px' }}>Theo Dõi Ngân Sách</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <AnimatePresence>
+                        {budgets.length === 0 ? (
+                            <p style={{ color: 'var(--text-secondary)' }}>Chưa có ngân sách nào được thiết lập.</p>
+                        ) : budgets.map((budget, index) => {
+                            const { spent, limit, percent, isExceeded } = getBudgetProgress(budget);
+                            return (
+                                <motion.div 
+                                    key={budget.id}
+                                    initial={{ opacity: 0, y: 12 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.05, duration: 0.4 }}
+                                    className={isExceeded ? "glass-panel budget-card budget-exceeded-pulse" : "glass-panel budget-card"}
+                                    style={{ 
+                                        padding: '16px', 
+                                        background: 'rgba(255,255,255,0.01)',
+                                        border: '1px solid var(--border-color)',
+                                        borderRadius: '12px',
+                                        transition: 'all 0.3s ease',
+                                        position: 'relative',
+                                        overflow: 'hidden'
+                                    }}
+                                >
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', alignItems: 'center' }}>
+                                        <div>
+                                            <span style={{ fontWeight: 'bold', fontSize: '15px' }}>{budget.category?.name}</span>
+                                            <span style={{ color: 'var(--text-secondary)', fontSize: '12px', marginLeft: '8px' }}>
+                                                (T{budget.month}/{budget.year})
+                                            </span>
+                                        </div>
+                                        <div style={{ fontWeight: 'bold', fontSize: '15px', color: isExceeded ? 'var(--danger-color)' : 'var(--text-primary)' }}>
+                                            {spent.toLocaleString()} <span style={{ fontWeight: 'normal', fontSize: '12px', color: 'var(--text-secondary)' }}>/ {limit.toLocaleString()} VNĐ</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div style={{ width: '100%', height: '8px', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', overflow: 'hidden' }}>
-                                    <div style={{ 
-                                        width: `${percent}%`, 
-                                        height: '100%', 
-                                        background: isExceeded ? 'var(--danger-color)' : (percent > 80 ? '#f59e0b' : 'var(--primary-color)'),
-                                        transition: 'width 0.3s ease'
-                                    }}></div>
-                                </div>
-                                {isExceeded && (
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--danger-color)', fontSize: '12px', marginTop: '4px' }}>
-                                        <FiAlertCircle /> Đã vượt ngân sách!
+                                    <div style={{ width: '100%', height: '8px', background: 'rgba(255,255,255,0.05)', borderRadius: '4px', overflow: 'hidden' }}>
+                                        <motion.div 
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${percent}%` }}
+                                            transition={{ duration: 0.8, ease: "easeOut" }}
+                                            style={{ 
+                                                height: '100%', 
+                                                background: isExceeded 
+                                                    ? 'linear-gradient(90deg, #ef4444, #b91c1c)' 
+                                                    : (percent > 80 
+                                                        ? 'linear-gradient(90deg, #f59e0b, #d97706)' 
+                                                        : 'linear-gradient(90deg, var(--primary-color), #818cf8)'),
+                                                borderRadius: '4px',
+                                                boxShadow: isExceeded 
+                                                    ? '0 0 8px rgba(239, 68, 68, 0.4)' 
+                                                    : (percent > 80 ? '0 0 8px rgba(245, 158, 11, 0.4)' : '0 0 8px rgba(79, 70, 229, 0.4)')
+                                            }}
+                                        ></motion.div>
                                     </div>
-                                )}
-                            </div>
-                        )
-                    })}
+                                    {isExceeded ? (
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--danger-color)', fontSize: '12px', marginTop: '10px', fontWeight: '500' }}>
+                                            <FiAlertCircle style={{ animation: 'shake 0.5s ease infinite alternate' }} /> Đã vượt ngân sách! (Hao hụt {(spent - limit).toLocaleString()} VNĐ)
+                                        </div>
+                                    ) : (
+                                        <div style={{ color: 'var(--text-secondary)', fontSize: '12px', marginTop: '10px' }}>
+                                            Còn lại {(limit - spent).toLocaleString()} VNĐ có thể sử dụng
+                                        </div>
+                                    )}
+                                </motion.div>
+                            )
+                        })}
+                    </AnimatePresence>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

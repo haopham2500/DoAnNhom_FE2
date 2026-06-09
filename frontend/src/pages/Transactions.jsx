@@ -239,6 +239,102 @@ const Transactions = () => {
                             onSubmit={handleCreateTransfer} 
                             style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
                         >
+                            {/* Interactive Transfer flow visualization */}
+                            <div style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'space-between', 
+                                gap: '12px', 
+                                padding: '16px', 
+                                background: 'rgba(255, 255, 255, 0.02)', 
+                                borderRadius: '12px', 
+                                border: '1px dashed var(--border-color)', 
+                                margin: '4px 0' 
+                            }}>
+                                {/* Source Wallet Card */}
+                                <div style={{ 
+                                    flex: 1, 
+                                    textAlign: 'center', 
+                                    padding: '12px', 
+                                    background: fromWalletId ? 'rgba(168, 85, 247, 0.1)' : 'rgba(255,255,255,0.02)', 
+                                    borderRadius: '8px', 
+                                    border: fromWalletId ? '1px solid #c084fc' : '1px solid transparent', 
+                                    transition: 'all 0.3s ease',
+                                    height: '60px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                    <div style={{ fontSize: '10px', color: 'var(--text-secondary)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Ví Nguồn</div>
+                                    <div style={{ fontWeight: 'bold', fontSize: '13px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        {wallets.find(w => w.id == fromWalletId)?.name || 'Chưa chọn'}
+                                    </div>
+                                    {fromWalletId && (
+                                        <div style={{ fontSize: '11px', color: '#c084fc', marginTop: '2px' }}>
+                                            {parseFloat(wallets.find(w => w.id == fromWalletId)?.balance || 0).toLocaleString()}đ
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Flow Indicator */}
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '40px' }}>
+                                    <FiRefreshCw 
+                                        className={fromWalletId && toWalletId ? "spin-flow" : ""} 
+                                        style={{ 
+                                            color: fromWalletId && toWalletId ? '#c084fc' : 'var(--text-secondary)', 
+                                            fontSize: '18px', 
+                                            transition: 'all 0.3s ease' 
+                                        }} 
+                                    />
+                                    <div style={{ 
+                                        width: '100%', 
+                                        height: '2px', 
+                                        background: fromWalletId && toWalletId ? 'linear-gradient(90deg, #c084fc, #818cf8)' : 'rgba(255,255,255,0.1)', 
+                                        position: 'relative', 
+                                        overflow: 'hidden', 
+                                        borderRadius: '1px' 
+                                    }}>
+                                        {fromWalletId && toWalletId && (
+                                            <div style={{
+                                                position: 'absolute',
+                                                top: 0, left: 0,
+                                                width: '12px', height: '100%',
+                                                background: '#fff',
+                                                boxShadow: '0 0 6px #fff',
+                                                animation: 'flowLine 1.5s infinite linear'
+                                            }} />
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Destination Wallet Card */}
+                                <div style={{ 
+                                    flex: 1, 
+                                    textAlign: 'center', 
+                                    padding: '12px', 
+                                    background: toWalletId ? 'rgba(129, 140, 248, 0.1)' : 'rgba(255,255,255,0.02)', 
+                                    borderRadius: '8px', 
+                                    border: toWalletId ? '1px solid #818cf8' : '1px solid transparent', 
+                                    transition: 'all 0.3s ease',
+                                    height: '60px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                    <div style={{ fontSize: '10px', color: 'var(--text-secondary)', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Ví Đích</div>
+                                    <div style={{ fontWeight: 'bold', fontSize: '13px', width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        {wallets.find(w => w.id == toWalletId)?.name || 'Chưa chọn'}
+                                    </div>
+                                    {toWalletId && (
+                                        <div style={{ fontSize: '11px', color: '#818cf8', marginTop: '2px' }}>
+                                            {parseFloat(wallets.find(w => w.id == toWalletId)?.balance || 0).toLocaleString()}đ
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
                             <select className="glass-input" value={fromWalletId} onChange={e => setFromWalletId(e.target.value)} required>
                                 <option value="" disabled>-- Từ Ví (Trừ tiền) --</option>
                                 {wallets.map(w => <option key={w.id} value={w.id}>{w.name} ({parseFloat(w.balance).toLocaleString()})</option>)}
@@ -253,7 +349,7 @@ const Transactions = () => {
                             <input type="text" className="glass-input" placeholder="Ghi chú (Ví dụ: Rút tiền ATM)" value={transferNote} onChange={e => setTransferNote(e.target.value)} />
                             <input type="date" className="glass-input" value={transferDate} onChange={e => setTransferDate(e.target.value)} required />
 
-                            <button type="submit" className="glass-button" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', background: 'rgba(168, 85, 247, 0.4)', color: 'white' }}>
+                            <button type="submit" className="glass-button" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', background: 'rgba(168, 85, 247, 0.6)', color: 'white', border: '1px solid rgba(255,255,255,0.1)' }}>
                                 <FiRefreshCw /> Thực Hiện Chuyển
                             </button>
                         </motion.form>
