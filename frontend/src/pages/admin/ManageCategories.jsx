@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api';
 import { FiList, FiEdit2, FiTrash2, FiPlus, FiX } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ManageCategories = () => {
     const [categories, setCategories] = useState([]);
@@ -93,7 +94,11 @@ const ManageCategories = () => {
     };
 
     return (
-        <div>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <h1 style={{ fontSize: '28px', fontWeight: 'bold', margin: 0, display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{ color: 'var(--primary-color)', display: 'flex' }}><FiList /></div> Quản Lý Danh Mục
@@ -106,19 +111,25 @@ const ManageCategories = () => {
                 </button>
             </div>
 
-            {notification.text && (
-                <div style={{
-                    padding: '12px 16px',
-                    marginBottom: '24px',
-                    borderRadius: '8px',
-                    background: notification.type === 'success' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)',
-                    color: notification.type === 'success' ? '#34d399' : '#f87171',
-                    border: `1px solid ${notification.type === 'success' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
-                    fontSize: '14px'
-                }}>
-                    {notification.text}
-                </div>
-            )}
+            <AnimatePresence>
+                {notification.text && (
+                    <motion.div 
+                        initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                        animate={{ opacity: 1, height: 'auto', marginBottom: 24 }}
+                        exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                        style={{
+                            padding: '12px 16px',
+                            borderRadius: '8px',
+                            background: notification.type === 'success' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+                            color: notification.type === 'success' ? '#34d399' : '#f87171',
+                            border: `1px solid ${notification.type === 'success' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+                            fontSize: '14px',
+                            overflow: 'hidden'
+                        }}>
+                        {notification.text}
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <div className="glass-panel" style={{ overflow: 'hidden' }}>
                 <div style={{ overflowX: 'auto' }}>
@@ -132,9 +143,25 @@ const ManageCategories = () => {
                                 <th style={thStyle}>Hành Động</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <motion.tbody
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                                visible: { transition: { staggerChildren: 0.05 } },
+                                hidden: {}
+                            }}
+                        >
                             {categories.map((cat) => (
-                                <tr key={cat.id} style={{ transition: 'background 0.3s ease' }} onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'} onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
+                                <motion.tr 
+                                    key={cat.id} 
+                                    variants={{
+                                        hidden: { opacity: 0, y: 10 },
+                                        visible: { opacity: 1, y: 0 }
+                                    }}
+                                    style={{ transition: 'background 0.3s ease' }} 
+                                    onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'} 
+                                    onMouseOut={e => e.currentTarget.style.background = 'transparent'}
+                                >
                                     <td style={{ ...tdStyle, color: 'var(--text-secondary)' }}>#{cat.id}</td>
                                     <td style={{ ...tdStyle, fontWeight: 'bold' }}>{cat.name}</td>
                                     <td style={tdStyle}>
@@ -162,9 +189,9 @@ const ManageCategories = () => {
                                             </button>
                                         </div>
                                     </td>
-                                </tr>
+                                </motion.tr>
                             ))}
-                        </tbody>
+                        </motion.tbody>
                     </table>
                     {categories.length === 0 && (
                         <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-secondary)' }}>Không có danh mục nào.</div>
@@ -173,47 +200,59 @@ const ManageCategories = () => {
             </div>
 
             {/* Modal */}
-            {showModal && (
-                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(4px)' }}>
-                    <div className="glass-panel" style={{ padding: '32px', width: '100%', maxWidth: '400px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                            <h2 style={{ margin: 0 }}>{formData.id ? 'Sửa Danh Mục' : 'Thêm Danh Mục'}</h2>
-                            <button onClick={handleCloseModal} style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}>
-                                <FiX size={24} />
-                            </button>
-                        </div>
-                        
-                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-secondary)' }}>Tên Danh Mục</label>
-                                <input 
-                                    className="glass-input" 
-                                    value={formData.name} 
-                                    onChange={e => setFormData({...formData, name: e.target.value})} 
-                                    required 
-                                />
+            <AnimatePresence>
+                {showModal && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, backdropFilter: 'blur(4px)' }}
+                    >
+                        <motion.div 
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.9, y: 20 }}
+                            className="glass-panel" style={{ padding: '32px', width: '100%', maxWidth: '400px' }}
+                        >
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                                <h2 style={{ margin: 0 }}>{formData.id ? 'Sửa Danh Mục' : 'Thêm Danh Mục'}</h2>
+                                <button onClick={handleCloseModal} style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+                                    <FiX size={24} />
+                                </button>
                             </div>
                             
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-secondary)' }}>Loại</label>
-                                <select 
-                                    className="glass-input" 
-                                    value={formData.type} 
-                                    onChange={e => setFormData({...formData, type: e.target.value})}
-                                >
-                                    <option value="expense">Chi Tiêu</option>
-                                    <option value="income">Thu Nhập</option>
-                                </select>
-                            </div>
+                            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                <div>
+                                    <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-secondary)' }}>Tên Danh Mục</label>
+                                    <input 
+                                        className="glass-input" 
+                                        value={formData.name} 
+                                        onChange={e => setFormData({...formData, name: e.target.value})} 
+                                        required 
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-secondary)' }}>Loại</label>
+                                    <select 
+                                        className="glass-input" 
+                                        value={formData.type} 
+                                        onChange={e => setFormData({...formData, type: e.target.value})}
+                                    >
+                                        <option value="expense">Chi Tiêu</option>
+                                        <option value="income">Thu Nhập</option>
+                                    </select>
+                                </div>
 
-                            <button type="submit" className="glass-button" style={{ marginTop: '8px' }}>
-                                {formData.id ? 'Cập Nhật' : 'Lưu Danh Mục'}
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            )}
-        </div>
+                                <button type="submit" className="glass-button" style={{ marginTop: '8px' }}>
+                                    {formData.id ? 'Cập Nhật' : 'Lưu Danh Mục'}
+                                </button>
+                            </form>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
 };
 

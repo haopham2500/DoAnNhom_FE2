@@ -80,3 +80,43 @@ code {
 
 .text-danger { color: var(--danger-color); }
 .text-success { color: var(--success-color); }
+
+/* Rotating Glow Effect */
+.wallet-card-glow {
+    position: relative;
+    z-index: 1;
+}
+.wallet-card-glow::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 14px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    z-index: -2;
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.wallet-card-glow:hover::before {
+    opacity: 1;
+}
+.wallet-card-glow::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(30, 41, 59, 1);
+    border-radius: 12px;
+    z-index: -1;
+}
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
