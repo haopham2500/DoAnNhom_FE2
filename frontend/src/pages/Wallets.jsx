@@ -41,8 +41,13 @@ const Wallets = () => {
 
     const handleDelete = async (id) => {
         if(window.confirm('Xóa ví này?')) {
-            await api.delete(`/wallets/${id}`);
-            fetchWallets();
+            try {
+                await api.delete(`/wallets/${id}`);
+                fetchWallets();
+                showNotification('Xóa ví thành công!', 'success');
+            } catch (error) {
+                showNotification('Lỗi khi xóa ví. Vui lòng thử lại.', 'error');
+            }
         }
     }
 
