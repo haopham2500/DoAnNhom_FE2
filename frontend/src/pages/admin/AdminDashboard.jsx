@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api';
-import { FiUsers, FiCreditCard, FiActivity, FiDollarSign } from 'react-icons/fi';
+import { FiUsers, FiCreditCard, FiActivity, FiGrid } from 'react-icons/fi';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 
 const AdminDashboard = () => {
@@ -28,7 +28,7 @@ const AdminDashboard = () => {
         { label: 'Tổng số Người Dùng', value: stats?.totalUsers || 0, icon: <FiUsers size={24} />, color: '#3b82f6' },
         { label: 'Tổng số Ví', value: stats?.totalWallets || 0, icon: <FiCreditCard size={24} />, color: '#a855f7' },
         { label: 'Tổng số Giao Dịch', value: stats?.totalTransactions || 0, icon: <FiActivity size={24} />, color: '#f59e0b' },
-        { label: 'Tổng Số Dư', value: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(stats?.totalBalance || 0), icon: <FiDollarSign size={24} />, color: '#10b981' },
+        { label: 'Tổng số Danh Mục', value: stats?.totalCategories || 0, icon: <FiGrid size={24} />, color: '#10b981' },
     ];
 
     // Format transaction growth data for BarChart

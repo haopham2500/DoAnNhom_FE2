@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Wallet;
 use App\Models\Transaction;
 use App\Models\Transfer;
+use App\Models\Category;
 use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,7 @@ class AdminController extends Controller
         $totalWallets = Wallet::count();
         $totalTransactions = Transaction::count();
         
-        $totalBalance = Wallet::sum('balance');
+        $totalCategories = Category::count();
         $totalIncome = Transaction::where('type', 'income')->sum('amount');
         $totalExpense = Transaction::where('type', 'expense')->sum('amount');
 
@@ -41,7 +42,7 @@ class AdminController extends Controller
             'totalUsers' => $totalUsers,
             'totalWallets' => $totalWallets,
             'totalTransactions' => $totalTransactions,
-            'totalBalance' => $totalBalance,
+            'totalCategories' => $totalCategories,
             'totalIncome' => $totalIncome,
             'totalExpense' => $totalExpense,
             'usersGrowth' => $usersGrowth,
