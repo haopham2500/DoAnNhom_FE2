@@ -99,7 +99,7 @@ const Wallets = () => {
                         className="glass-input" 
                         placeholder="Số dư ban đầu" 
                         value={balance} 
-                        onChange={e => setBalance(e.target.value)} 
+                        onChange={e => setBalance(e.target.value.replace(/[^0-9.]/g, ''))} 
                         required 
                     />
                     <button type="submit" className="glass-button" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>

@@ -1,0 +1,196 @@
+/* ==========================================
+   PREMIUM DARK MODE AUTH STYLE SYSTEM
+   ========================================== */
+
+/* Layout wrapper centering the modal card */
+.auth-layout-wrapper {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0c0d12; /* Nền xám tối tối giản, sạch sẽ, đồng nhất */
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.auth-page-wrapper {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Auth modal registration card */
+.auth-container {
+    width: 100%;
+    padding: 3rem 2.5rem 2.5rem 2.5rem;
+    background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.15) 0%, rgba(17, 18, 22, 0) 65%), #111216; /* Hiệu ứng gradient mờ chuyển sang tím nhạt */
+    border: 1px solid rgba(255, 255, 255, 0.05); /* Viền mờ sắc nét */
+    border-radius: 24px; /* Bo tròn góc */
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.75), 
+                inset 0 1px 0px rgba(255, 255, 255, 0.05); /* Đổ bóng nhẹ tạo chiều sâu */
+    box-sizing: border-box;
+}
+
+/* Header icon container */
+.auth-header-icon-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.auth-header-icon-container svg {
+    color: #c084fc;
+    filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.35));
+}
+
+/* Title: Tạo Tài Khoản */
+.auth-container h2 {
+    text-align: center;
+    margin: 0 0 10px 0;
+    font-size: 28px;
+    font-weight: 700;
+    font-family: inherit;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%); /* Chuyển màu trắng sang tím mờ */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Subheading: Bắt đầu quản lý tài chính thông minh */
+.auth-container .auth-subtitle {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.55); /* Màu trắng mờ */
+    margin: 0 0 32px 0;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* Input layout groups */
+.auth-container .form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Label style */
+.auth-container label {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4); /* Nhãn mờ */
+    letter-spacing: 0.75px;
+    text-transform: uppercase;
+}
+
+/* Input container with icon */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #08090c; /* Màu nền tối hơn thân form */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+}
+
+/* Focus state with glowing blue border */
+.input-wrapper:focus-within {
+    border-color: rgba(59, 130, 246, 0.65); /* Xanh lam mờ */
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.25);
+    background: #050608;
+}
+
+/* Icons styling on the left */
+.input-icon-left {
+    position: absolute;
+    left: 14px;
+    color: rgba(255, 255, 255, 0.75); /* Biểu tượng trắng mờ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+/* Actual input field overrides */
+.auth-container .glass-input {
+    width: 100%;
+    padding: 13px 14px 13px 44px; /* Chừa khoảng trống cho icon bên trái */
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 14.5px;
+    outline: none;
+    box-sizing: border-box;
+    transition: none;
+}
+
+.auth-container .glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.35); /* Văn bản gợi ý trắng mờ */
+}
+
+/* Submit button with glowing gradient */
+.auth-container .glass-button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); /* Xanh lam sang tím */
+    border: none;
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 15.5px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35), 
+                0 0 40px rgba(139, 92, 246, 0.2); /* Hiệu ứng phát sáng nhẹ */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 14px;
+    letter-spacing: 0.5px;
+}
+
+.auth-container .glass-button:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    box-shadow: 0 5px 25px rgba(59, 130, 246, 0.5), 
+                0 0 50px rgba(139, 92, 246, 0.35);
+    transform: translateY(-1.5px);
+}
+
+.auth-container .glass-button:active {
+    transform: translateY(0);
+}
+
+/* Links style below button */
+.auth-container .auth-link {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.55); /* Trắng mờ */
+}
+
+.auth-container .auth-link a {
+    color: #3b82f6; /* Xanh lam sáng */
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 6px;
+    transition: color 0.15s ease;
+}
+
+.auth-container .auth-link a:hover {
+    color: #60a5fa;
+    text-decoration: underline;
+}
+
+/* Error panel styling */
+.auth-error-panel {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-radius: 12px;
+    color: #f87171;
+    padding: 12px;
+    margin-bottom: 20px;
+    font-size: 13.5px;
+    text-align: center;
+    font-weight: 500;
+}

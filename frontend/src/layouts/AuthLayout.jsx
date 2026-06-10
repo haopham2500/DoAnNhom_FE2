@@ -14,10 +14,8 @@ const AuthLayout = () => {
     }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', width: '100%' }}>
-            <div className="glass-panel" style={{ width: '100%', maxWidth: '400px', padding: '40px', borderRadius: '24px' }}>
-                <Outlet />
-            </div>
+        <div className="auth-layout-wrapper">
+            <Outlet />
         </div>
     );
 };
